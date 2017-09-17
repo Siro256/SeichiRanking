@@ -31,6 +31,10 @@ Route::post('/ideaForm/submit', 'IdeaFormController@submit');
 
 Route::get('/thanks', 'PagesController@thanks');
 
+// 広告入稿フォーム
+Route::get('/adForm', 'AdFormController@index');
+Route::post('/adForm/submit', 'AdFormController@submit');
+
 // プレイヤー詳細
 Route::get('/player/{player}', 'PlayerController@index');
 
