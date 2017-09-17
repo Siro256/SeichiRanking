@@ -41,6 +41,7 @@
             <li>・整地鯖に関する内容であること</li>
             <li>・画像広告であること(文字のみの広告は×)</li>
             <li>・著作権等に違反していないこと</li>
+            <li>・URL短縮サービスの利用はご遠慮ください。</li>
             <li>・その他、運営チームが不適切と判断した場合は、掲載できません。</li>
         </ul>
     </div>
@@ -73,6 +74,14 @@
                     <input type="text" name="contact_id" class="form-control" id="contact_id" value="{!! Input::old('contact_id') !!}" placeholder="Discord ID(#の数字もつけてください)">
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label for="picture" class="col-sm-2 control-label">
+                 {!! Form::label('Image') !!}<span class="text-danger">※</span>
+                </label>
+                 {!! Form::file('photo', null) !!}
+            </div>
+                    
 
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">お問い合わせ内容 <span class="text-danger">※</span></label>

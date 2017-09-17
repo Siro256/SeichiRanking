@@ -78,6 +78,8 @@ class AdFormController extends Controller
                 'contact_id.twitter'  => '入力したTwitter IDは存在しません。',
                 'inquiry_text.required' => 'お問い合わせ内容は必須項目です。',
                 'inquiry_text.repeatlinefeed' => '改行の多用はご遠慮ください。(連続する改行は2回まで許容します)'
+                'picture.required'   => '画像は必須項目です。',
+                'picture.in'   => '画像の情報が不正です。',
             ];
 
             // バリデーション処理
@@ -100,6 +102,8 @@ class AdFormController extends Controller
                 'contact_id.discordid'  => 'Discord IDは 末尾に「#数字」を入力してください。(例:user_name#1234)',
                 'inquiry_text.required' => 'お問い合わせ内容は必須項目です。',
                 'inquiry_text.repeatlinefeed' => '改行の多用はご遠慮ください。(連続する改行は2回まで許容します)',
+                'picture.required'   => '画像は必須項目です。',
+                'picture.in'   => '画像の情報が不正です。',
             ];
 
             // バリデーション処理
@@ -133,6 +137,22 @@ class AdFormController extends Controller
                 env('DISCORD_INQUIRY_URL'),
                 ['json' => ['content' => $discord_content]]
             );
+            
+            // 画像の保存
+            if ($request->file('file')->isValid([])) {
+            $filename = $request->file->store('public/avatar');
+
+            $user = User::find(auth()->id());
+            $user->avatar_filename = basename($filename);
+            $user->save();
+
+            return redirect('/home')->with('success', '保存しました。');
+        } else {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['file' => '画像がアップロードされていないか不正なデータです。']);
+        }
 
             // 問い合わせデータ保存
             DB::table('inquiry')->insert([
