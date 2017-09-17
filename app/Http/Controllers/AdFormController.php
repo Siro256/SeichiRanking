@@ -1,6 +1,6 @@
 <?php
 /**
- * L“üeƒtƒH[ƒ€
+ * åºƒå‘Šå…¥ç¨¿ãƒ•ã‚©ãƒ¼ãƒ 
  */
 
 namespace App\Http\Controllers;
@@ -20,31 +20,31 @@ use GuzzleHttp;
 class AdFormController extends Controller
 {
     /**
-     * indexƒAƒNƒVƒ‡ƒ“
+     * indexã‚¢ã‚¯ã‚·ãƒ§ãƒ³
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         try {
-            // ƒ†[ƒUî•ñ‚ğæ“¾
+            // ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’å–å¾—
             $user = $this->jms_login_auth()->getUser();
             Log::debug(__FUNCTION__.' : login user ->'.print_r($user, 1));
 
-            // “Æ©’è‹`JS
+            // ç‹¬è‡ªå®šç¾©JS
             $assetJs = [
                 '/js/inquiry.js'
             ];
 
             return view(
                 'adForm', [
-                    'user'    => $user,     // JMSƒ†[ƒUî•ñ
-                    'assetJs' => $assetJs,  // “Æ©’è‹`JS
+                    'user'    => $user,     // JMSãƒ¦ãƒ¼ã‚¶æƒ…å ±
+                    'assetJs' => $assetJs,  // ç‹¬è‡ªå®šç¾©JS
                 ]
             );
         }
-        // –¢ƒƒOƒCƒ“‚Ìê‡A—áŠO‚Æ‚µ‚ÄƒLƒƒƒbƒ`‚·‚é
+        // æœªãƒ­ã‚°ã‚¤ãƒ³ã®å ´åˆã€ä¾‹å¤–ã¨ã—ã¦ã‚­ãƒ£ãƒƒãƒã™ã‚‹
         catch (\Exception $e) {
-            // ƒZƒbƒVƒ‡ƒ“‚É–ß‚èæURL‚ğƒZƒbƒg
+            // ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«æˆ»ã‚Šå…ˆURLã‚’ã‚»ãƒƒãƒˆ
             Session::put('callback_url', '/adForm');
 
             Log::debug(print_r($e->getMessage(), 1));
@@ -53,7 +53,7 @@ class AdFormController extends Controller
     }
 
     /**
-     * “ŠeŠ®—¹ƒAƒNƒVƒ‡ƒ“
+     * æŠ•ç¨¿å®Œäº†ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -61,26 +61,26 @@ class AdFormController extends Controller
     {
         Log::debug('$request -> '.print_r($request->input(), 1));
 
-        // ƒpƒ‰ƒ[ƒ^æ“¾
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾—
         $inquiry_text = $request->input('inquiry_text');
         $reply_type   = $request->input('reply_type');
 
-        // •ÔMƒ^ƒCƒv‚ÌƒZƒbƒg
+        // è¿”ä¿¡ã‚¿ã‚¤ãƒ—ã®ã‚»ãƒƒãƒˆ
         if ($reply_type == 'twitter') {
             $contact_id_label = 'Twitter ID';
             $type = 1;
 
-            // ƒoƒŠƒf[ƒVƒ‡ƒ“ƒGƒ‰[‚ÌƒƒbƒZ[ƒW‚ğƒZƒbƒg
+            // ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ã‚»ãƒƒãƒˆ
             $messages = [
-                'reply_type.required'   => '˜A—æ‚Í•K{€–Ú‚Å‚·B',
-                'reply_type.in'         => '˜A—æ‚Ì’l‚ª•s³‚Å‚·B',
-                'contact_id.required'   => $contact_id_label.'‚Í•K{€–Ú‚Å‚·B',
-                'contact_id.twitter'  => '“ü—Í‚µ‚½Twitter ID‚Í‘¶İ‚µ‚Ü‚¹‚ñB',
-                'inquiry_text.required' => '‚¨–â‚¢‡‚í‚¹“à—e‚Í•K{€–Ú‚Å‚·B',
-                'inquiry_text.repeatlinefeed' => '‰üs‚Ì‘½—p‚Í‚²‰“—¶‚­‚¾‚³‚¢B(˜A‘±‚·‚é‰üs‚Í2‰ñ‚Ü‚Å‹–—e‚µ‚Ü‚·)'
+                'reply_type.required'   => 'é€£çµ¡å…ˆã¯å¿…é ˆé …ç›®ã§ã™ã€‚',
+                'reply_type.in'         => 'é€£çµ¡å…ˆã®å€¤ãŒä¸æ­£ã§ã™ã€‚',
+                'contact_id.required'   => $contact_id_label.'ã¯å¿…é ˆé …ç›®ã§ã™ã€‚',
+                'contact_id.twitter'  => 'å…¥åŠ›ã—ãŸTwitter IDã¯å­˜åœ¨ã—ã¾ã›ã‚“ã€‚',
+                'inquiry_text.required' => 'ãŠå•ã„åˆã‚ã›å†…å®¹ã¯å¿…é ˆé …ç›®ã§ã™ã€‚',
+                'inquiry_text.repeatlinefeed' => 'æ”¹è¡Œã®å¤šç”¨ã¯ã”é æ…®ãã ã•ã„ã€‚(é€£ç¶šã™ã‚‹æ”¹è¡Œã¯2å›ã¾ã§è¨±å®¹ã—ã¾ã™)'
             ];
 
-            // ƒoƒŠƒf[ƒVƒ‡ƒ“ˆ—
+            // ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³å‡¦ç†
             Validator::make($request->all(), [
                 'reply_type'   => 'required|in:twitter,discord',
                 'contact_id'   => 'required',
@@ -92,17 +92,17 @@ class AdFormController extends Controller
             $contact_id_label = 'Discord ID';
             $type = 2;
 
-            // ƒoƒŠƒf[ƒVƒ‡ƒ“ƒGƒ‰[‚ÌƒƒbƒZ[ƒW‚ğƒZƒbƒg
+            // ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ©ãƒ¼æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ã‚»ãƒƒãƒˆ
             $messages = [
-                'reply_type.required'   => '˜A—æ‚Í•K{€–Ú‚Å‚·B',
-                'reply_type.in'         => '˜A—æ‚Ì’l‚ª•s³‚Å‚·B',
-                'contact_id.required'   => $contact_id_label.'‚Í•K{€–Ú‚Å‚·B',
-                'contact_id.discordid'  => 'Discord ID‚Í ––”ö‚Éu#”šv‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B(—á:user_name#1234)',
-                'inquiry_text.required' => '‚¨–â‚¢‡‚í‚¹“à—e‚Í•K{€–Ú‚Å‚·B',
-                'inquiry_text.repeatlinefeed' => '‰üs‚Ì‘½—p‚Í‚²‰“—¶‚­‚¾‚³‚¢B(˜A‘±‚·‚é‰üs‚Í2‰ñ‚Ü‚Å‹–—e‚µ‚Ü‚·)',
+                'reply_type.required'   => 'é€£çµ¡å…ˆã¯å¿…é ˆé …ç›®ã§ã™ã€‚',
+                'reply_type.in'         => 'é€£çµ¡å…ˆã®å€¤ãŒä¸æ­£ã§ã™ã€‚',
+                'contact_id.required'   => $contact_id_label.'ã¯å¿…é ˆé …ç›®ã§ã™ã€‚',
+                'contact_id.discordid'  => 'Discord IDã¯ æœ«å°¾ã«ã€Œ#æ•°å­—ã€ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚(ä¾‹:user_name#1234)',
+                'inquiry_text.required' => 'ãŠå•ã„åˆã‚ã›å†…å®¹ã¯å¿…é ˆé …ç›®ã§ã™ã€‚',
+                'inquiry_text.repeatlinefeed' => 'æ”¹è¡Œã®å¤šç”¨ã¯ã”é æ…®ãã ã•ã„ã€‚(é€£ç¶šã™ã‚‹æ”¹è¡Œã¯2å›ã¾ã§è¨±å®¹ã—ã¾ã™)',
             ];
 
-            // ƒoƒŠƒf[ƒVƒ‡ƒ“ˆ—
+            // ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³å‡¦ç†
             Validator::make($request->all(), [
                 'reply_type'   => 'required|in:twitter,discord',
                 'contact_id'   => 'required|discordid',
@@ -114,19 +114,19 @@ class AdFormController extends Controller
             $type = 9;
         }
 
-        // ƒNƒbƒL[‚ª¶‚«‚Ä“ü‚ê‚ÎA“Še•s‰Â
+        // ã‚¯ãƒƒã‚­ãƒ¼ãŒç”Ÿãã¦å…¥ã‚Œã°ã€æŠ•ç¨¿ä¸å¯
         if (!empty($_COOKIE["inquiry"])) {
             Log::debug('inquiry cookie -> '.print_r($_COOKIE["inquiry"], 1));
-            return redirect('inquiryForm')->withErrors( "‚¨–â‚¢‡‚í‚¹‚Ì˜A‘±“Še‚Í‚²‰“—¶‚­‚¾‚³‚¢B");
+            return redirect('inquiryForm')->withErrors( "ãŠå•ã„åˆã‚ã›ã®é€£ç¶šæŠ•ç¨¿ã¯ã”é æ…®ãã ã•ã„ã€‚");
         }
 
-        // “Šeˆ—
+        // æŠ•ç¨¿å‡¦ç†
         try {
-            // ƒ†[ƒUî•ñ‚ğæ“¾
+            // ãƒ¦ãƒ¼ã‚¶æƒ…å ±ã‚’å–å¾—
             $user = $this->jms_login_auth()->getUser();
             Log::debug(__FUNCTION__ . ' : login user -> ' . print_r($user, 1));
 
-            // Discord Bot‚ÉpostƒŠƒNƒGƒXƒg
+            // Discord Botã«postãƒªã‚¯ã‚¨ã‚¹ãƒˆ
             $discord_content = "**[".$user['preferred_username']."]**\n".$inquiry_text;
             $client = new GuzzleHttp\Client();
             $client->post(
@@ -134,7 +134,7 @@ class AdFormController extends Controller
                 ['json' => ['content' => $discord_content]]
             );
 
-            // –â‚¢‡‚í‚¹ƒf[ƒ^•Û‘¶
+            // å•ã„åˆã‚ã›ãƒ‡ãƒ¼ã‚¿ä¿å­˜
             DB::table('inquiry')->insert([
                 'name' => $user['preferred_username'],
                 'inquiry_text' => $inquiry_text,
@@ -147,15 +147,15 @@ class AdFormController extends Controller
                 'updated_at'   => Carbon::now(),
             ]);
 
-            // “ñd“Še–h~‚Ìcookie‚ğ¶¬
+            // äºŒé‡æŠ•ç¨¿é˜²æ­¢ã®cookieã‚’ç”Ÿæˆ
             $cookie = \Cookie::make('inquiry', md5(uniqid(mt_rand(), true)), 1);
 
-            // cookie‚ğƒNƒ‰ƒCƒAƒ“ƒg(ƒuƒ‰ƒEƒU)‚Ö•Û‘¶ + “ŠeŠ®—¹‰æ–Ê‚Ö‘JˆÚ
-            return redirect('/thanks')->withCookie($cookie)->with('message', 'L“üe‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚µ‚½B“à—e‚Í‰^‰cƒ`[ƒ€‚É‚æ‚Á‚ÄR¸‚³‚êAŒ‹‰Ê‚ªoŸ‘æA˜A—‚ªs‚«‚Ü‚·B');
+            // cookieã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ(ãƒ–ãƒ©ã‚¦ã‚¶)ã¸ä¿å­˜ + æŠ•ç¨¿å®Œäº†ç”»é¢ã¸é·ç§»
+            return redirect('/thanks')->withCookie($cookie)->with('message', 'åºƒå‘Šå…¥ç¨¿ã‚ã‚ŠãŒã¨ã†ã”ã–ã„ã¾ã—ãŸã€‚å†…å®¹ã¯é‹å–¶ãƒãƒ¼ãƒ ã«ã‚ˆã£ã¦å¯©æŸ»ã•ã‚Œã€çµæœãŒå‡ºæ¬¡ç¬¬ã€é€£çµ¡ãŒè¡Œãã¾ã™ã€‚');
         }
-            // —áŠOƒLƒƒƒbƒ`
+            // ä¾‹å¤–ã‚­ãƒ£ãƒƒãƒ
         catch (\Exception $e) {
-            // ƒZƒbƒVƒ‡ƒ“‚É–ß‚èæURL‚ğƒZƒbƒg
+            // ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«æˆ»ã‚Šå…ˆURLã‚’ã‚»ãƒƒãƒˆ
             Session::put('callback_url', '/adForm');
 
             Log::debug(print_r($e->getMessage(), 1));
