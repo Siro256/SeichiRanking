@@ -165,6 +165,117 @@ class AdminModel extends Model
     }
 
     /**
+     * ユーザ主体の広告一覧を取得する
+     * @return mixed
+     */
+    public function get_ad_list($request)
+    {
+        $params = $request->input();
+        Log::debug('$params -> '.print_r($params, 1));
+
+        // 絞り込みラジオ
+        $avail_flg = 0; // デフォルト未承認
+        if (isset($params['approve']) && $params['approve'] === 'all') {
+            $avail_flg = null;
+        }
+        elseif (isset($params['approve'])) {
+            $avail_flg = $params['approve'];
+        }
+
+        // 検索キーワード
+        $keyword = null;
+        if (isset($params['mcid'])) {
+            $keyword = $params['mcid'];
+        }
+
+        // クエリ発行
+        $ad_list = DB::table('user_ad')
+            ->where('delete_flg', 0)
+            ->orderBy('id', 'DESC')
+            ->when(isset($avail_flg), function ($query) use ($avail_flg) {
+                return $query->where('avail_flg', $avail_flg);
+            })
+            ->when(isset($keyword), function ($query) use ($keyword) {
+                return $query
+                    ->where('name', 'LIKE', "$keyword%");
+            })
+            ->paginate(20);
+
+        return $ad_list;
+    }
+
+
+    /**
+     * 広告の承認/承認取り消し処理
+     * @param int $id user_adテーブルの主キー
+     * @return bool true:更新成功 / false:更新失敗
+     */
+    public function update_user_ad_avail($id)
+    {
+        try {
+            // 該当の広告の有効フラグを取得する
+            $avail_flg = DB::table('user_ad')->where('id', $id)->value('avail_flg');
+//            Log::debug('$avail_flg -> '.print_r($avail_flg, 1));
+
+            // フラグを反転
+            $set_flg = $avail_flg === 1 ? 0 : 1;
+//            Log::debug('$set_flg -> '.print_r($set_flg, 1));
+
+            $result = DB::table('user_ad')
+                ->where('id', $id)
+                ->update([
+                    'avail_flg'  => $set_flg,
+                    'updated_at' => Carbon::now(),
+                ]);
+
+            // 更新処理の判定
+            if ($result === 1) {
+                $result = ['result' => true];
+            }
+            else {
+                throw new Exception('uer_ad update error.');
+            }
+
+            return response()->json($result);
+        }
+        catch (Exception $e) {
+            Log::e($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 広告の論理削除
+     * @param $id
+     * @return array|bool|int
+     */
+    public function delete_user_ad($id)
+    {
+        try {
+            $result = DB::table('user_ad')
+                ->where('id', $id)
+                ->update([
+                    'delete_flg' => 1,
+                    'updated_at' => Carbon::now(),
+                ]);
+
+            // 更新処理の判定
+            if ($result === 1) {
+                $result = ['result' => true];
+            }
+            else {
+                throw new Exception('uer_ad update error.');
+            }
+
+            return $result;
+        }
+        catch (Exception $e) {
+            Log::e($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * 管理者アカウント一覧を取得する
      * @return mixed
      */

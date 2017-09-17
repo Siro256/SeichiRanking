@@ -13,11 +13,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
+    <!-- Scripts -->
     <script src="{{asset('/js/base/jquery-3.1.1.min.js')}}"></script>
-{{--    <script src="{{asset('/js/common.js')}}"></script>--}}
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{asset('/js/admin.js')}}"></script>
+{{--    <script src="{{asset('/js/common.js')}}"></script>--}}
 
     {{-- ページ独自JSの組み込み --}}
     @if(!empty($assetJs))
@@ -86,7 +89,8 @@
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
                             <li><a href="/admin/">管理者TOP</a></li>
-                            <li><a href="/admin/inquiry">お問い合わせ管理</a></li>
+                            {{--<li><a href="/admin/inquiry">お問い合わせ管理</a></li>--}}
+                            <li><a href="/admin/ad">広告管理</a></li>
                             <li><a href="/admin/account">アカウント管理</a></li>
                         </ul>
                     </div>
@@ -102,8 +106,5 @@
         @endif
 
     </div>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

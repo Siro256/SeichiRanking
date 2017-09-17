@@ -95,6 +95,50 @@ class AdminController extends Controller
     }
 
     /**
+     * 広告管理TOP
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function ad_index(Request $request)
+    {
+        // 未ログイン時は、ログインページへリダイレクト
+        if (!Auth::check()) {
+            return redirect()->to('/admin/login');
+        }
+
+        // アカウント一覧を取得
+        $ad_list = $this->model->get_ad_list($request);
+
+        return view('admin/ad',['ad_list' => $ad_list]);
+    }
+
+    public function ad_preview()
+    {
+
+    }
+
+    /**
+     * 広告承認アクション
+     * @param Request $request
+     * @return bool
+     */
+    public function ad_approve(Request $request)
+    {
+        // 承認処理
+        $approve_result = $this->model->update_user_ad_avail($request->input('id'));
+
+        return $approve_result;
+    }
+
+    public function ad_delete(Request $request)
+    {
+        // 削除処理
+        $delete_result = $this->model->delete_user_ad($request->input('id'));
+
+        return $delete_result;
+    }
+
+    /**
      * アカウント管理
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */

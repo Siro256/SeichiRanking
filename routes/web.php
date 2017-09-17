@@ -54,6 +54,12 @@ Route::get('/admin', 'AdminController@index');
 //Route::get('/admin/inquiry/detail', 'AdminController@inquiry_detail');
 //Route::post('/admin/inquiry/submit', 'AdminController@inquiry_submit');
 
+// 広告管理
+Route::get('/admin/ad', 'AdminController@ad_index');
+Route::get('/admin/ad/preview', 'AdminController@ad_preview');
+Route::post('/admin/ad/approve', 'AdminController@ad_approve');
+Route::post('/admin/ad/delete', 'AdminController@ad_delete');
+
 // アカウント管理
 Route::get('/admin/account', 'AdminController@account');
 // ログイン/ログアウト
