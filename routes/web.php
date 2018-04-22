@@ -34,6 +34,9 @@ Route::get('/thanks', 'PagesController@thanks');
 // プレイヤー詳細
 Route::get('/player/{player}', 'PlayerController@index');
 
+// 超会議用：二つ名アンロック
+Route::get('/unlockachv/{achive_code}', 'Chokaigi\SerialCodeController@unlock_achv');
+
 // JMSログイン・ログアウト
 Route::get('login/{provider}',          'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
